@@ -3,6 +3,20 @@
 #include<eigen3/Eigen/Dense>
 #include<iostream>
 
+
+Eigen::Vector2f transform2D(const Eigen::Vector2f& origin_vector, float angle, const Eigen::Vector2f& movement) {
+    Eigen::Vector3f t;
+    t << origin_vector[0], origin_vector[1], 1.0f;
+    Eigen::Matrix3f transf;
+    transf << std::cos(angle), -std::sin(angle), movement[0], \
+              std::sin(angle), std::cos(angle), movement[1], \
+              0, 0, 1;
+    auto multi_result = transf * t;
+    Eigen::Vector2f ans;
+    ans << multi_result[0], multi_result[1];
+    return ans;
+}
+
 int main(){
 
     // Basic Example of cpp
@@ -43,6 +57,16 @@ int main(){
     // matrix scalar multiply i * 2.0
     // matrix multiply i * j
     // matrix multiply vector i * v
+
+    // mytest
+    Eigen::Vector2f input;
+    input << 2.0f, 1.0f;
+    Eigen::Vector2f movement;
+    movement << 1.0f, 2.0f;
+    float PI = std::acos(-1);
+    auto ret = transform2D(input, 45.0f / 180 * PI, movement);
+    std::cout << "The result is: \n";
+    std::cout << ret << std::endl;
 
     return 0;
 }
