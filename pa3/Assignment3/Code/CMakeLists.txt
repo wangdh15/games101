@@ -4,6 +4,7 @@ project(Rasterizer)
 find_package(OpenCV REQUIRED)
 
 set(CMAKE_CXX_STANDARD 17)
+SET(CMAKE_BUILD_TYPE Debug)
 
 include_directories(/usr/local/include ./include)
 
