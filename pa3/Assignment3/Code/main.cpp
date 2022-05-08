@@ -111,7 +111,7 @@ Eigen::Vector3f texture_fragment_shader(const fragment_shader_payload& payload)
     if (payload.texture)
     {
         // TODO: Get the texture value at the texture coordinates of the current fragment
-
+        return_color = payload.texture->getColor(payload.tex_coords(0), payload.tex_coords(1));
     }
     Eigen::Vector3f texture_color;
     texture_color << return_color.x(), return_color.y(), return_color.z();
@@ -139,6 +139,14 @@ Eigen::Vector3f texture_fragment_shader(const fragment_shader_payload& payload)
     {
         // TODO: For each light source in the code, calculate what the *ambient*, *diffuse*, and *specular*
         // components are. Then, accumulate that result on the *result_color* object.
+        Eigen::Vector3f l = light.position - point;
+        Eigen::Vector3f l_norm = l.normalized();
+        Eigen::Vector3f v_norm = (eye_pos - point).normalized();
+        Eigen::Vector3f h_norm = (l_norm + v_norm).normalized();
+        float r2 = (light.position - point).dot(light.position - point);
+        result_color += ka.cwiseProduct(amb_light_intensity) +
+                        kd.cwiseProduct(light.intensity) / r2 * std::fmax(0.f, normal.dot(l_norm)) +
+                        ks.cwiseProduct(light.intensity) / r2 * std::fmax(0.f, std::pow(normal.dot(h_norm), p));
 
     }
 
@@ -170,8 +178,15 @@ Eigen::Vector3f phong_fragment_shader(const fragment_shader_payload& payload)
         // TODO: For each light source in the code, calculate what the *ambient*, *diffuse*, and *specular*
         // components are. Then, accumulate that result on the *result_color* object.
 
+        Eigen::Vector3f l = light.position - point;
+        Eigen::Vector3f l_norm = l.normalized();
+        Eigen::Vector3f v_norm = (eye_pos - point).normalized();
+        Eigen::Vector3f h_norm = (l_norm + v_norm).normalized();
+        float r2 = (light.position - point).dot(light.position - point);
+        result_color += ka.cwiseProduct(amb_light_intensity) +
+                        kd.cwiseProduct(light.intensity) / r2 * std::fmax(0.f, normal.dot(l_norm)) +
+                        ks.cwiseProduct(light.intensity) / r2 * std::fmax(0.f, std::pow(normal.dot(h_norm), p));
     }
-
     return result_color * 255.f;
 }
 
