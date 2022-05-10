@@ -30,7 +30,7 @@ int main()
 
     scene.Add(std::move(mesh));
     scene.Add(std::make_unique<Light>(Vector3f(-20, 70, 20), 0.5));
-    scene.Add(std::make_unique<Light>(Vector3f(30, 50, -12), 0.5));    
+    scene.Add(std::make_unique<Light>(Vector3f(30, 50, -12), 0.5));
 
     Renderer r;
     r.Render(scene);
