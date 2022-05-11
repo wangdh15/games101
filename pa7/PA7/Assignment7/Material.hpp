@@ -139,7 +139,7 @@ Vector3f Material::sample(const Vector3f &wi, const Vector3f &N){
             float r = std::sqrt(1.0f - z * z), phi = 2 * M_PI * x_2;
             Vector3f localRay(r*std::cos(phi), r*std::sin(phi), z);
             return toWorld(localRay, N);
-            
+
             break;
         }
     }
