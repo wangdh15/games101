@@ -29,7 +29,7 @@ namespace CGL {
 
     void Rope::simulateEuler(float delta_t, Vector2D gravity)
     {
-        /*
+        
         for (auto &s : springs)
         {
             // TODO (Part 2): Use Hooke's law to calculate the force on a node
@@ -46,21 +46,22 @@ namespace CGL {
             {
                 // TODO (Part 2): Add the force due to gravity, then compute the new velocity and position
                 m->forces += gravity * m->mass;
+                m->forces += -0.01 * m->velocity;
                 Vector2D aa = m->forces / m->mass;
-                m->position += m->velocity * delta_t;
                 m->velocity += aa * delta_t;
+                m->position += m->velocity * delta_t;
                 // TODO (Part 2): Add global damping
+
             }
 
             // Reset all forces on each mass
             m->forces = Vector2D(0, 0);
         }
-        */
+        
     }
 
     void Rope::simulateVerlet(float delta_t, Vector2D gravity)
     {
-        /*
         for (auto &s : springs)
         {
             // TODO (Part 3): Simulate one timestep of the rope using explicit Verlet （solving constraints)
@@ -78,10 +79,15 @@ namespace CGL {
                 Vector2D temp_position = m->position;
                 // TODO (Part 3.1): Set the new position of the rope mass
                 m->forces += gravity * m->mass;
-                Vector2D aa =
+                Vector2D aa = m->forces / m->mass;
+                // m->position = temp_position + temp_position - m->last_position + aa * delta_t * delta_t;
+                float dampint_factor = 0.00005;
+                m->position = temp_position + (1 - dampint_factor) * (temp_position - m->last_position) + aa * delta_t * delta_t;
+                m->last_position = temp_position;
                 // TODO (Part 4): Add global Verlet damping
             }
+            m->forces = Vector2D(0, 0);
         }
-        */
+    
     }
 }
