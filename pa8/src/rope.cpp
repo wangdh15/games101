@@ -29,6 +29,7 @@ namespace CGL {
 
     void Rope::simulateEuler(float delta_t, Vector2D gravity)
     {
+        /*
         for (auto &s : springs)
         {
             // TODO (Part 2): Use Hooke's law to calculate the force on a node
@@ -54,10 +55,12 @@ namespace CGL {
             // Reset all forces on each mass
             m->forces = Vector2D(0, 0);
         }
+        */
     }
 
     void Rope::simulateVerlet(float delta_t, Vector2D gravity)
     {
+        /*
         for (auto &s : springs)
         {
             // TODO (Part 3): Simulate one timestep of the rope using explicit Verlet （solving constraints)
@@ -79,5 +82,6 @@ namespace CGL {
                 // TODO (Part 4): Add global Verlet damping
             }
         }
+        */
     }
 }
